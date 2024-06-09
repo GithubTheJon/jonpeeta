@@ -1,0 +1,95 @@
+<!-- templates/highscores.html -->
+{% extends "base.html" %}
+
+{% block title %}High Scores{% endblock %}
+
+{% block content %}
+    <h1>High Scores List</h1>
+    <hr>
+
+    <button onclick="sortTable_after(3)">Sort by Time</button>
+    <button onclick="sortTable_after(4)">Sort by Mistakes</button>
+    
+    <br><br>
+    <table id="highScoresTable">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>User</th>
+                <th>Puzzle</th>
+                <th>Time</th>
+                <th>Mistakes</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% set counter = 1 %}
+        {% for entry in entries %}
+            
+            {% set counter =  loop.index %} 
+            
+            {% set is_highlighted = (users[entry[1]-1][1] == username) %}
+
+            <tr class="{{ 'highlight' if is_highlighted else '' }}">
+                <td>{{ counter }}</td>                 
+                <td>{{ users[entry[1]-1][1] }}</td>
+                <td>{{ entry[2] }}</td>
+                <td>{{ entry[3] }}</td> <!-- Time (float) -->
+                <td>{{ entry[4] }}</td> <!-- Mistakes (int) -->
+
+                {% if session['is_admin'] == 1 %}
+                <td>
+                    <button onclick="deleteHighScore_Row_By( {{entry[0]}} )">Delete</button>
+                </td>
+                {% endif %}
+            </tr>
+            
+        {% endfor %}
+            
+        </tbody>
+    </table>
+    <script>
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+        function sortTable_after(CollumIndex) {
+            const table = document.getElementById('highScoresTable');
+            const tbody = table.tBodies[0]
+            // getting all the rows from the table as an array
+            const rows = Array.from(tbody.rows);
+            
+
+            // Bubble sorting the array for appropriate collum values
+            rows.sort((first_row, second_row) => {
+                const first_element = first_row.cells[CollumIndex].textContent;
+                const second_element = second_row.cells[CollumIndex].textContent;
+                
+                console.log(first_element-second_element)
+                return first_element - second_element;
+            });
+        
+            //
+            rows.forEach((row, CollumIndex) => {
+                tbody.appendChild(row);
+                row.cells[0].textContent = CollumIndex + 1;
+            });
+        }
+
+        function deleteHighScore_Row_By(fastestTimes_id) {
+            fetch('/delete_highscore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ fastestTimes_id: fastestTimes_id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    location.reload();  // Reload the page to update the high scores list
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+{% endblock %}
+

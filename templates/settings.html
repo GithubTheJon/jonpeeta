@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+
+<h1> Settings </h1>
+<hr>
+<div class="settings-container">
+    <div class="settings-row">
+        <h3>Text Font</h3>
+        <select name="text-font">
+            <option value="Arial, sans-serif"> Arial </option>
+            <option value="Verdana, sans-serif"> Verdana </option>
+            <option value="Times, serif"> Times </option>
+            <option value="Courier, monospace"> Courier </option>
+        </select>
+    </div>
+
+    <div class="settings-row">
+        <h3>Text Size</h3>
+        <select name="text-size">
+            <option value="1em"> Small </option>
+            <option value="1.5em"> Medium </option>
+            <option value="2em"> Large </option>
+        </select>
+    </div>
+
+    <div class="settings-row">
+        <h3>Highlight Color</h3>
+        <select name="highlight-color">
+            <option value="seashell"> Seashell </option>
+            <option value="pink"> Pink </option>
+            <option value="lightblue"> Lightblue </option>
+            <option value="greenyellow"> Greenyellow </option>
+            <option value="red"> Red </option>
+        </select>
+    </div>
+
+    <div class="settings-row">
+        <h3>Background Color</h3>
+        <select name="background-color">
+            <option value="white"> White </option>
+            <option value="seashell"> Seashell </option>
+            <option value="yellow"> Yellow </option>
+        </select>
+    </div>
+
+    <div class="settings-row">
+        <h3>TopBar Color</h3>
+        <select name="topbar-color">
+            <option value="#333"> Dark Gray </option>
+            <option value="blue"> Blue </option>
+            <option value="pink"> Pink </option>
+            <option value="cyan"> Cyan </option>
+        </select>
+    </div>
+</div>
+
+
+
+<br><br>
+<button id="savePreferencesButton">Save Preferences</button>
+
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const textFontSelect = document.querySelector('select[name="text-font"]');
+            const textSizeSelect = document.querySelector('select[name="text-size"]');
+            const highlightColorSelect = document.querySelector('select[name="highlight-color"]');
+            const BackgroundColorSelect = document.querySelector('select[name="background-color"]');
+            const topbarColorSelect = document.querySelector('select[name="topbar-color"]');
+            const savePreferencesButton = document.getElementById('savePreferencesButton');
+        
+            function savePreferences() {
+                const preferences = {
+                    textFont: textFontSelect.value,
+                    textSize: textSizeSelect.value,
+                    highlightColor: highlightColorSelect.value,
+                    BackgroundColor: BackgroundColorSelect.value,
+                    topbarColor: topbarColorSelect.value
+                };
+                document.cookie = `preferences=${JSON.stringify(preferences)};path=/;`;
+                loadPreferences()
+            }
+        
+            function loadPreferences() {
+                const cookies = document.cookie.split('; ');
+                const preferencesCookie = cookies.find(row => row.startsWith('preferences='));
+                if (preferencesCookie) {
+                    const preferences = JSON.parse(preferencesCookie.split('=')[1]);
+                    document.documentElement.style.setProperty('--text-font', preferences.textFont);
+                    document.documentElement.style.setProperty('--text-size', preferences.textSize);
+                    document.documentElement.style.setProperty('--highlight-color', preferences.highlightColor);
+                    document.documentElement.style.setProperty('--background-color', preferences.BackgroundColor);
+                    document.documentElement.style.setProperty('--topbar-color', preferences.topbarColor);
+        
+                    textFontSelect.value = preferences.textFont;
+                    textSizeSelect.value = preferences.textSize;
+                    highlightColorSelect.value = preferences.highlightColor;
+                    BackgroundColorSelect.value = preferences.BackgroundColor;
+                    topbarColorSelect.value = preferences.topbarColor;
+                }
+            }
+
+            savePreferencesButton.addEventListener('click', savePreferences);
+            loadPreferences();
+        });
+    </script>
+
+{% endblock %}

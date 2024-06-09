@@ -1,0 +1,79 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Default Title{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <!-- Common header content -->
+    </header>
+    
+    <nav>
+        <!-- Common navigation -->
+        <div class="navbar">
+            <a href="{{ url_for('home') }}" class="link">
+                <div class="gamemode-selected">Sudoku Standard</div>
+            </a>
+
+            <div class="icons">
+                <a href="{{ url_for('highscores') }}" class="icon-link">
+                    <div class="icon1 icon"><span class="text1">High Scores</span></div>
+                </a>
+                <a href="{{ url_for('settings') }}" class="icon-link">
+                    <div class="icon2 icon"><span class="text2">Settings</span></div>
+                </a>
+                {% if username %}
+                    <a href="{{ url_for('logout') }}" class="icon-link">
+                        <div class="icon3 icon3-logged-in icon"><span class="text3">Logout</span></div>
+                    </a>
+                    <a class="icon-link">
+                        <div class="icon4 icon4-logged-in icon"><span class="text4">{{ username }}</span></div>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('signup') }}" class="icon-link">
+                        <div class="icon3 icon"><span class="text3">Sign <br> Up</span></div>
+                    </a>
+                    <a href="{{ url_for('login') }}" class="icon-link">
+                        <div class="icon4 icon"><span class="text4">Login</span></div>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <main>
+        
+    
+        <div class="nav-padding"></div>
+
+        {% block content %}
+        {% endblock %}
+    </main>
+    
+    {% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            function loadPreferences() {
+                const cookies = document.cookie.split('; ');
+                const preferencesCookie = cookies.find(row => row.startsWith('preferences='));
+                if (preferencesCookie) {
+                    const preferences = JSON.parse(preferencesCookie.split('=')[1]);
+                    document.documentElement.style.setProperty('--text-font', preferences.textFont);
+                    document.documentElement.style.setProperty('--text-size', preferences.textSize);
+                    document.documentElement.style.setProperty('--highlight-color', preferences.highlightColor);
+                    document.documentElement.style.setProperty('--background-color', preferences.BackgroundColor);
+                    document.documentElement.style.setProperty('--topbar-color', preferences.topbarColor);
+                }
+            }
+            
+            loadPreferences();
+        });
+
+    </script>
+    {% endblock %}
+</body>
+</html>

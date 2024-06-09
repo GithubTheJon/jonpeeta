@@ -1,0 +1,50 @@
+<!-- sudoku.html -->
+{% extends "base.html" %}
+
+{% block title %}Sudoku Standard{% endblock %}
+
+{% block content %}
+
+	<div class="dropdown">
+        <button class="dropbtn" onclick="get_sudoku_from_url()">Randomize Sudoku</button>
+	</div>
+
+	<hr>
+	<h2 id="errors">0</h2>
+    <h2 id="timer">0</h2>
+
+	<!-- 9x9 board -->
+	<div id="board"></div>
+	<br>
+	<!-- tileSelector -->
+	<div id="digits"></div>
+    
+{% endblock %}
+
+{% block scripts %}
+
+    <!-- Checks which option from dropdown is clicked -->
+    <script src="{{ url_for('static', filename='sudoku.js') }}"></script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+            function loadPreferences() {
+                const cookies = document.cookie.split('; ');
+                const preferencesCookie = cookies.find(row => row.startsWith('preferences='));
+                if (preferencesCookie) {
+                    const preferences = JSON.parse(preferencesCookie.split('=')[1]);
+                    document.documentElement.style.setProperty('--text-font', preferences.textFont);
+                    document.documentElement.style.setProperty('--text-size', preferences.textSize);
+                    document.documentElement.style.setProperty('--highlight-color', preferences.highlightColor);
+                    document.documentElement.style.setProperty('--background-color', preferences.BackgroundColor);
+                    document.documentElement.style.setProperty('--topbar-color', preferences.topbarColor);
+
+                    console.log(preferencesCookie)
+                }
+            }
+            
+            loadPreferences();
+        });
+	</script>
+
+{% endblock %}

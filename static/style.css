@@ -1,0 +1,283 @@
+/* Initializes variables from settings */
+:root {
+    --text-font: Arial, sans-serif;
+    --text-size: 1em;
+    --highlight-color: seashell;
+    --background-color: white;
+    --topbar-color: #333;
+}
+
+body {
+    background-color: var(--background-color);
+    font-family: var(--text-font);
+    text-align: center;
+    margin: 0;
+    font-size: 1em;
+}
+
+main {
+    font-size: var(--text-size);
+}
+
+.navbar {
+    margin: 0;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--topbar-color);
+    color: var(--background-color);
+    position: fixed;
+    z-index: 2;
+    height: 70px;
+}
+
+ 
+.nav-padding {
+    height: 90px;
+}
+
+.icons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 1em;
+}
+
+.icon {
+    display: inline-block;
+    width: 4em;
+    height: 4em;
+    background-color: var(--topbar-color);
+    margin-right: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    z-index: 3;
+    justify-self: right;
+}
+
+.icon1 {
+    background-image: url('imgs/highscore.png');
+}
+.icon2 {
+    background-image: url('imgs/settings.png');
+}
+.icon3 {
+    background-image: url('imgs/signup.png');
+}
+.icon3-logged-in {
+    background-image: url('imgs/logout.png');
+}
+.icon4 {
+    background-image: url('imgs/login.png'); 
+}
+.icon4-logged-in {
+    background-image: url('imgs/profile.png');
+}
+
+.text1, .text2, .text3, .text4 {
+    display: none;
+    z-index: 4;
+    top: 100%; /* Place it below the icon */
+    left: 50%;
+}
+.icon1:hover .text1 {
+    display: block;
+}
+.icon2:hover .text2 {
+    display: block;
+}
+.icon3:hover .text3 {
+    display: block;
+}
+.icon4:hover .text4 {
+    display: block;
+}
+
+a.icon-link {
+    width: 4em;
+    height: 4em;
+    text-decoration: none; 
+    color: inherit; 
+    display: block; 
+    display: inline-block;
+    
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+a.link {
+    text-decoration: none;
+    color: inherit;
+}
+
+hr {
+    width: 450px;
+}
+
+#errors {
+    color: coral;
+    font-size: 2em;
+}
+
+#board {
+    height: 450px;
+    width: 450px;
+
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#digits {
+    width: 450px; /*450px*/
+    height: 50px; /*50px*/
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.number {
+    width: 48px; /*48px*/
+    height: 48px; /*48px*/
+    border: 1px solid black;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.number-disabled {
+    color: gray;
+    pointer-events: none; /* Makes the element non-clickable */
+    background-color: lightgray;
+}
+
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.settings-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35%;
+    margin: 10px 0; /* Adjust margin as needed */
+}
+.settings-row h3 {
+    margin: 0;
+    padding-right: 10px; /* Adjust padding as needed */
+    text-align: right;
+    flex: 1;
+}
+.settings-row select {
+    margin: 0;
+    text-align: left;
+    flex: 1;
+    font-size: var(--text-size)/2;
+}
+
+/*   ######   Settings    ######    */
+.tile {
+    width: 48px;
+    height: 48px;
+    border: 1px solid lightgray; /* changable*/
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tile-start {
+    background-color: whitesmoke;
+}
+
+.number-selected, .tile-highlight, .num-highlight, .highlight {
+    background-color: var(--highlight-color); /* variable, can change*/
+}
+.dropbtn {
+    background-color: var(--highlight-color);
+    color: black;
+    padding: 16px;
+    font-size: var(--text-size);
+    border: none;
+    cursor: pointer;
+}
+
+.gamemode-selected {
+    font-size: 2em;
+}
+
+
+
+table {
+    border-collapse: collapse;
+    text-align: left;
+    margin: auto;
+}
+th {
+    background-color: var(--topbar-color);
+    text-align: center;
+    font-size: 2em;
+    color: var(--background-color);
+}
+
+td, th {
+    text-align: center;
+    font-size: 1.5em;
+    border: 1px solid black;
+    padding: 3px;    
+}
+
+/*.toggle {background-color: brown;}*/
+
+@media (max-width: 540px) {
+    .navbar {
+        height: 140px;
+    }
+    .icons {
+        justify-content: flex-end;
+        max-width: 38%;
+        min-width: 30%;
+    }
+    .gamemode-selected {
+        max-width: 50%;
+        min-width: 35%;
+    }
+    .nav-padding {
+        height: 160px;
+    }
+    #board {
+        height: 360px;
+        width: 360px;
+    }
+    .tile {
+        width: 38px;
+        height: 38px;
+    }
+    #digits {
+        width: 360px; 
+        height: 50px;
+    }
+    .number {
+        width: 38px;
+        height: 38px;
+    }
+    hr {
+        width: 360px; 
+    }
+}
+
+.horizontal-line {
+    border-bottom: 1px solid black;
+}
+
+.vertical-line {
+    border-right: 1px solid black;
+}
+
